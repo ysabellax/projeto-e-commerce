@@ -14,6 +14,11 @@ export abstract class Produto {
         this._tipo = tipo;
         this._nome = nome;
         this._valor = valor;
+
+        if (this._valor <= 0) {
+            throw new Error("O valor do produto não pode ser negativo.");
+        }
+
     }
 
     public get numero() {

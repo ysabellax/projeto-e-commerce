@@ -30,6 +30,7 @@ export function main() {
     produtos.listarTodas();
     
     while (true) {
+
         console.log(colors.fg.magenta + 
                     "♡===================================================♡", colors.reset);
         console.log("                                                     ");
@@ -44,9 +45,8 @@ export function main() {
         console.log("            5 - Deletar Produto                      ");
         console.log("            6 - Sair                                 ");
         console.log("                                                     ", colors.reset);
-        console.log(colors.fg.magenta + "♡===================================================♡", colors.reset);
-        console.log("                                                     ",
-        colors.reset);
+        console.log(colors.fg.magenta + "♡===================================================♡",colors.reset);
+        console.log("                                                     ", colors.reset);
 
         console.log("Entre com a opção desejada: ");
         opcao = leia.questionInt("");
@@ -125,8 +125,15 @@ export function main() {
 
                     tipo = produto.tipo;
 
-                    console.log("Digite o Valor do Produto (R$): ");
-                    valor = leia.questionFloat("");
+                    try {
+                        valor = lerPrecoPositivo("Digite o valor do Produto (R$): ");
+                    } catch (erro: any) {
+                        console.error(colors.fg.red, "\nErro: " + erro.message, colors.reset);
+
+                        keyPress();
+                        break;
+                    }
+
 
                     switch (tipo) {
                         case 1 :
@@ -149,6 +156,10 @@ export function main() {
                 break;
             case 5:
                 console.log(colors.fg.magenta,"\n\nDeletar Produto\n\n", colors.reset);
+
+                console.log("Digite o número do Produto: ");
+                numero = leia.questionInt("");
+                produtos.deletar(numero);
 
                 keyPress()
                 break;
@@ -174,6 +185,16 @@ function keyPress(): void {
     console.log(colors.reset, "");
     console.log("\nPressione enter para continuar...\n");
     leia.prompt();
+}
+
+function lerPrecoPositivo(mensagem: string): number {
+    const valor = leia.questionFloat(mensagem);
+
+    if (valor <= 0) {
+        throw new Error("O preço não pode ser negativo.");
+    }
+
+    return valor;
 }
 
 main ();

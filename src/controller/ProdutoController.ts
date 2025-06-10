@@ -6,7 +6,7 @@ export class ProdutoController implements ProdutoRepository {
 
     private listaProdutos: Array<Produto> = new Array<Produto>();
     numero: number = 0;
-    listaContas: any;
+    listaProduto: any;
 
     procurarPorNumero(numero: number): void {
         let buscaProduto = this.buscarNoArray(numero);
@@ -30,14 +30,21 @@ export class ProdutoController implements ProdutoRepository {
         let buscaProduto = this.buscarNoArray(produto.numero);
 
         if (buscaProduto != null) {
-            this.listaContas[this.listaContas.indexOf(buscaProduto)] = produto;
+            this.listaProdutos[this.listaProdutos.indexOf(buscaProduto)] = produto;
             console.log(colors.fg.magenta, "\nO produto numero: " + produto.numero + " foi atualizado com sucesso!", colors.reset);
         }else {
             console.log(colors.fg.red, "\nO produto numero: " + produto.numero + " não foi encontrado!", colors.reset);
         }
     }
     deletar(numero: number): void {
-        throw new Error("Method not implemented.");
+        let buscaProduto = this.buscarNoArray(numero);
+
+        if (buscaProduto != null) {
+            this.listaProdutos.splice(this.listaProdutos.indexOf(buscaProduto), 1);
+            console.log(colors.fg.magenta, "\nO Produto número: " + numero + " foi deletado com sucesso!", colors.reset);
+        }else {
+            console.log(colors.fg.red, "\nO Produto numero: " + numero + " não foi encontradO!", colors.reset);
+        }
     }
     
     public gerarNumero(): number {
