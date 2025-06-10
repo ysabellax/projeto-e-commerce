@@ -1,19 +1,26 @@
 import leia from "readline-sync";
 import { colors } from './src/util/Colors';
+import { ProdutoSurpresa } from "./src/model/ProdutoSurpresa";
+import { ProdutoComum } from "./src/model/ProdutoComum";
 
 
 export function main() {
 
-    let opcao;
-    
+    let opcao: number;
 
+    const produtosurpresa: ProdutoSurpresa = new ProdutoSurpresa(2, 2, 1, "Labubu", 150, "Caixa Verde");
+    produtosurpresa.visualizar();
+
+    const produtocomum: ProdutoComum = new ProdutoComum(3, 1, 2, "Funko Pop", 250, "Harry Potter");
+    produtocomum.visualizar();
+    
     while (true) {
         console.log(colors.fg.magenta + 
                     "♡===================================================♡", colors.reset);
         console.log("                                                     ");
         console.log(colors.fg.cyan + "                ♡  BELLA TOYS  ♡                   ", colors.reset);
         console.log("                                                     ");
-        console.log(colors.fg.magenta + "♡===================================================♡", colors.reset);
+        console.log(colors.fg.magenta + "♡==================================================♡", colors.reset);
         console.log(colors.fg.cyan + "                                                     ");
         console.log("            1 - Cadastrar Produto                    ");
         console.log("            2 - Listar Todos                         ");
@@ -75,9 +82,9 @@ export function main() {
 
 function sobre(): void {
         console.log(colors.fg.magenta + "♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡", colors.reset);
-        console.log("Projeto Desenvolvido por: Ysabella Santos ");
+        console.log(colors.fg.cyan +"Projeto Desenvolvido por: ", colors.reset);
         console.log("Ysabella Santos - ysabella3909@gmail.com");
-        console.log("...");
+        console.log("https://github.com/ysabellax/projeto-e-commerce.git");
         console.log(colors.fg.magenta +"♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡-♡\n", colors.reset);
 }
 
