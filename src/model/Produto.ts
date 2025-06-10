@@ -74,7 +74,7 @@ export abstract class Produto {
         console.log(colors.fg.magenta + "♡===================================================♡", colors.reset);
         console.log("Numero do Produto: " + this._numero);
         console.log("Versão: " + this._versao);
-        console.log("Tipo (Coleção): " + tipo);
+        console.log("Tipo: " + tipo);
         console.log("Nome do Produto: " + this._nome);
         console.log("Valor do Produto: " + this._valor.toFixed(2));
 

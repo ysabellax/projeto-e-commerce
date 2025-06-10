@@ -2,17 +2,32 @@ import leia from "readline-sync";
 import { colors } from './src/util/Colors';
 import { ProdutoSurpresa } from "./src/model/ProdutoSurpresa";
 import { ProdutoComum } from "./src/model/ProdutoComum";
+import { ProdutoController } from "./src/controller/ProdutoController";
 
 
 export function main() {
 
-    let opcao: number;
+    let produtos: ProdutoController = new ProdutoController();
 
-    const produtosurpresa: ProdutoSurpresa = new ProdutoSurpresa(2, 2, 1, "Labubu", 150, "Caixa Verde");
-    produtosurpresa.visualizar();
+    let opcao, numero, versao, tipo, valor: number;
+    let cor, nome, colecao: string;
+    const tiposProdutos = ["Colecao Produto Surpresa", "Colecao Produto Comum"]
 
-    const produtocomum: ProdutoComum = new ProdutoComum(3, 1, 2, "Funko Pop", 250, "Harry Potter");
-    produtocomum.visualizar();
+    console.log("\nCriar Contas\n");
+
+    let cc1: ProdutoSurpresa = new ProdutoSurpresa(produtos.gerarNumero(), 1, 1, "Labubu", 200, "rosa");
+    produtos.cadastrar(cc1);
+
+    let cc2: ProdutoSurpresa = new ProdutoSurpresa(produtos.gerarNumero(), 1, 2, "CryBaby", 150, "Azul");
+    produtos.cadastrar(cc2);
+
+    let cp1: ProdutoComum = new ProdutoComum(produtos.gerarNumero(), 2, 1, "Funko Pop", 350, "Harry Potter");
+    produtos.cadastrar(cp1);
+
+    let cp2: ProdutoComum = new ProdutoComum(produtos.gerarNumero(), 2, 2, "Funko Pop", 300, "Stranger Things");
+    produtos.cadastrar(cp2);
+
+    produtos.listarTodas();
     
     while (true) {
         console.log(colors.fg.magenta + 
@@ -48,20 +63,87 @@ export function main() {
             case 1:
                 console.log(colors.fg.magenta,"\n\nCadastrar Produto\n\n", colors.reset);
 
+                console.log(colors.fg.cyan + "Digite o Número da Versão do Produto: ", colors.reset);
+                versao = leia.questionInt("");
+
+                console.log(colors.fg.cyan + "Digite o Nome do Produto: ", colors.reset);
+                nome = leia.question("");
+
+                console.log(colors.fg.cyan + "Digite o Tipo de Produto: ", colors.reset);
+                tipo = leia.keyInSelect(tiposProdutos, "", {cancel: false}) + 1;
+
+                console.log(colors.fg.magenta + "Digite o Valor do Produto (R$): ", colors.reset);
+                valor = leia.questionFloat("");
+
+                switch (tipo) {
+                    case 1:
+                        console.log(colors.fg.magenta + "Digite a cor da caixa surpresa do Produto: ", colors.reset);
+                        cor = leia.question("");
+                        produtos.cadastrar(
+                            new ProdutoSurpresa(produtos.gerarNumero(), versao, tipo, nome, valor, cor));
+                        break;
+                    case 2:
+                        console.log(colors.fg.magenta + "Digite de qual Coleção é o Produto: ", colors.reset);
+                        colecao = leia.question("");
+                        produtos.cadastrar(new ProdutoComum(produtos.gerarNumero(), versao, tipo, nome, valor, colecao));
+                        break;
+                }
+
                 keyPress()
                 break;
             case 2: 
                 console.log(colors.fg.magenta,"\n\nListar Todos\n\n", colors.reset);
 
+                produtos.listarTodas();
+
                 keyPress()
                 break;
             case 3:
-                console.log(colors.fg.magenta,"\n\nListar Produto por Número \n\n", colors.reset);
+                console.log(colors.fg.magenta,"\n\nListar Produtos por Número \n\n", colors.reset);
+
+                console.log("Digite o número do Produto: ");
+                numero = leia.questionInt("");
+                produtos.procurarPorNumero(numero);
 
                 keyPress()
                 break;
             case 4:
-                console.log(colors.fg.magenta,"\n\nAtualizar Produto\n\n", colors.reset);
+                console.log(colors.fg.magenta,"\n\nAtualizar Produtos\n\n", colors.reset);
+
+                console.log("Digite o número do Produto: ");
+                numero = leia.questionInt("");
+
+                let produto = produtos.buscarNoArray(numero);
+
+                if (produto != null) {
+
+                    console.log("Digite o Número da Versão: ");
+                    versao = leia.questionInt("");
+
+                    console.log("Digite o Nome do produto: ");
+                    nome = leia.question("");
+
+                    tipo = produto.tipo;
+
+                    console.log("Digite o Valor do Produto (R$): ");
+                    valor = leia.questionFloat("");
+
+                    switch (tipo) {
+                        case 1 :
+                            console.log("Digite a cor da Caixa Surpresa: ");
+                            cor = leia.question("");
+                            produtos.atualizar(
+                                new ProdutoSurpresa(numero, versao, tipo, nome, valor, cor));
+                            break;
+                        case 2:
+                            console.log("Digite a Coleção que esse Produto pertence: ");
+                            colecao = leia.question("");
+                            produtos.atualizar(new ProdutoComum(numero, versao, tipo, nome, valor, colecao));
+                            break;
+                    }
+                }else {
+                    console.log(colors.fg.red, "\nO produto número: " + numero + " não foi encontrado!", colors.reset);
+                }
 
                 keyPress()
                 break;
