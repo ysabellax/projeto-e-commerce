@@ -1,4 +1,4 @@
-# ❣️🎁 Bella Toys Projeto Generation 🎁❣️
+# ❣️ Bella Toys Projeto Generation ❣️
 
 - Node.js + TypeScript
 - Paradigma de Orientação a Objetos (POO)
